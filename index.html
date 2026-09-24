@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<!-- saved from url=(0246)file:///Users/sebastianfiedler/Library/Application%20Support/Claude/local-agent-mode-sessions/04174b45-eab8-438d-bc07-bd1a95214508/f1147567-c3d9-4831-82ea-5446a9e5fe6e/local_844a97ba-c0c5-4293-82e0-d5a3b9325314/outputs/orb_project_onesheeter.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>ORB Intraday Trading System — Project One-Sheeter</title>
+<style>
+  :root{
+    --ink:#1a1d29;
+    --sub:#5b6172;
+    --line:#e3e6ec;
+    --bg:#f7f8fb;
+    --card:#ffffff;
+    --accent:#2f6fed;
+    --accent-dark:#1e4fb8;
+    --green:#1f9d55;
+    --amber:#c9820a;
+    --red:#c0392b;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .sheet{
+    max-width:960px;
+    margin:0 auto;
+    padding:40px 44px 56px;
+  }
+  .masthead{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    border-bottom:3px solid var(--ink);
+    padding-bottom:16px;
+    margin-bottom:28px;
+  }
+  .masthead h1{
+    font-size:28px;
+    margin:0 0 6px;
+    letter-spacing:-0.01em;
+  }
+  .masthead p{
+    margin:0;
+    color:var(--sub);
+    font-size:14px;
+  }
+  .masthead .meta{
+    text-align:right;
+    font-size:12px;
+    color:var(--sub);
+    line-height:1.6;
+    white-space:nowrap;
+  }
+  .badge{
+    display:inline-block;
+    background:var(--ink);
+    color:#fff;
+    font-size:11px;
+    font-weight:600;
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+    padding:3px 9px;
+    border-radius:3px;
+  }
+
+  .thesis{
+    display:flex;
+    gap:18px;
+    align-items:center;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:18px 22px;
+    margin-bottom:32px;
+  }
+  .thesis .from, .thesis .to{
+    flex:1;
+    font-size:14px;
+    line-height:1.5;
+  }
+  .thesis .from{color:var(--sub);}
+  .thesis .to{color:var(--ink); font-weight:600;}
+  .thesis .arrow{
+    font-size:22px;
+    color:var(--accent);
+    flex:0 0 auto;
+  }
+  .thesis .tag{
+    display:block;
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    color:var(--sub);
+    margin-bottom:3px;
+    font-weight:700;
+  }
+
+  .timeline{
+    position:relative;
+    margin-left:22px;
+    padding-left:28px;
+    border-left:2px solid var(--line);
+  }
+  .stage{
+    position:relative;
+    margin-bottom:26px;
+  }
+  .stage:last-child{margin-bottom:0;}
+  .stage::before{
+    content:attr(data-n);
+    position:absolute;
+    left:-40px;
+    top:0;
+    width:26px;
+    height:26px;
+    border-radius:50%;
+    background:var(--accent);
+    color:#fff;
+    font-size:12px;
+    font-weight:700;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .stage.done::before{background:var(--green);}
+  .stage-head{
+    display:flex;
+    align-items:baseline;
+    gap:10px;
+    margin-bottom:6px;
+  }
+  .stage-head h2{
+    font-size:16px;
+    margin:0;
+  }
+  .stage-head .status{
+    font-size:10.5px;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:0.04em;
+    padding:2px 8px;
+    border-radius:999px;
+  }
+  .status.live{background:#e6f4ea; color:var(--green);}
+  .status.built{background:#eaf1fe; color:var(--accent-dark);}
+  .status.fixed{background:#fdf1e3; color:var(--amber);}
+  .stage p{
+    margin:0 0 8px;
+    font-size:13.5px;
+    color:var(--sub);
+    line-height:1.55;
+    max-width:760px;
+  }
+  .chips{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+  }
+  .chip{
+    background:var(--card);
+    border:1px solid var(--line);
+    color:var(--ink);
+    font-size:11.5px;
+    padding:4px 9px;
+    border-radius:6px;
+  }
+  .chip.reject{
+    color:var(--red);
+    text-decoration:line-through;
+    text-decoration-color:#e3a49b;
+    border-color:#f3d6d1;
+    background:#fdf5f4;
+  }
+  .chip.keep{
+    color:var(--green);
+    border-color:#cfe9d8;
+    background:#f2faf5;
+  }
+
+  .grid2{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:6px 18px;
+    margin-top:4px;
+  }
+  .grid2 div{font-size:12.5px; color:var(--sub);}
+  .grid2 b{color:var(--ink);}
+
+  .callout{
+    margin-top:10px;
+    border-left:3px solid var(--amber);
+    background:#fdf8ee;
+    padding:8px 12px;
+    font-size:12.5px;
+    color:#7a5610;
+    border-radius:0 6px 6px 0;
+  }
+
+  .footer-row{
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    gap:16px;
+    margin-top:36px;
+    padding-top:20px;
+    border-top:1px solid var(--line);
+  }
+  .footer-card h3{
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:0.05em;
+    color:var(--sub);
+    margin:0 0 8px;
+  }
+  .footer-card ul{
+    margin:0;
+    padding-left:16px;
+    font-size:12.5px;
+    color:var(--ink);
+    line-height:1.7;
+  }
+
+  .stamp{
+    text-align:center;
+    margin-top:28px;
+    font-size:11px;
+    color:var(--sub);
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <div style="text-align:center; margin-bottom:16px;">
+    <span style="display:inline-block; background:#fdeceb; color:var(--red); border:1px solid #f3c6c1; font-size:11.5px; font-weight:800; text-transform:uppercase; letter-spacing:0.08em; padding:5px 16px; border-radius:999px;">Proprietary &amp; Confidential — Internal Use Only</span>
+  </div>
+
+  <div class="masthead">
+    <div>
+      <span class="badge">Project One-Sheeter</span>
+      <h1 style="margin-top:10px;">Automated Intraday Algorithmic Trading System</h1>
+      <p>Opening Range Breakout (ORB) strategy — from backtest to autonomous paper execution</p>
+    </div>
+    <div class="meta">
+      Product Builder: Sebastian Fiedler<br>
+      Status as of Sep 24, 2026<br>
+      Paper trading only — no live capital
+    </div>
+  </div>
+
+  <div class="thesis">
+    <div class="from"><span class="tag">Where this started</span>A hard-coded rule set that produced trade recommendations for a human to read and decide on.</div>
+    <div class="arrow">→</div>
+    <div class="to"><span class="tag">Where it stands today</span>A system that detects, validates, and automatically executes those same recommendations as live bracket orders in a paper account — unattended, on a fixed weekday schedule, with no one starting it by hand.</div>
+  </div>
+
+  <div class="timeline">
+
+    <div class="stage done" data-n="1">
+      <div class="stage-head"><h2>Strategy foundation</h2><span class="status live">Locked</span></div>
+      <p>Defined and backtested the core edge: a 5-minute opening-range breakout with a confirmation entry, tested across an 883k-row trade history to lock in parameters rather than eyeball them.</p>
+      <div class="grid2">
+        <div><b>Stop:</b> 0.25× opening range</div>
+        <div><b>Target:</b> 5.0× risk</div>
+        <div><b>Entry:</b> confirmed breakout, not first tick</div>
+        <div><b>Validation:</b> split-half tested before adoption</div>
+      </div>
+    </div>
+
+    <div class="stage done" data-n="2">
+      <div class="stage-head"><h2>Signal quality gates</h2><span class="status live">Live</span></div>
+      <p>Added gates so the strategy only fires when conditions historically supported it — including a counter-intuitive finding that longs perform best when a stock is <i>below</i> its 20-day average, not above it (reversion, not momentum).</p>
+      <div class="chips">
+        <span class="chip">ATR / volatility gate</span>
+        <span class="chip">Market regime gate</span>
+        <span class="chip">Volume gate</span>
+        <span class="chip">Trend (reversion) gate</span>
+        <span class="chip keep">QQQ divergence carve-out — validated, live</span>
+        <span class="chip">Entry-range &amp; freshness gates</span>
+      </div>
+    </div>
+
+    <div class="stage done" data-n="3">
+      <div class="stage-head"><h2>Universe expansion</h2><span class="status live">34 tickers</span></div>
+      <p>Grew from a small pilot list to a tiered universe of 34 names across tech and semiconductors, each tier reflecting how well it has actually performed under the strategy rather than name recognition.</p>
+      <div class="grid2">
+        <div><b>Tier 1 — Core:</b> 17 tickers</div>
+        <div><b>Tier 2 — Probation:</b> 13 tickers</div>
+        <div><b>Tier 3 — Excluded / Untiered:</b> 4 tickers, tracked not favored</div>
+        <div><b>Tested, not added:</b> 18-ticker next-tier XLK expansion — failed split-half</div>
+      </div>
+    </div>
+
+    <div class="stage done" data-n="4">
+      <div class="stage-head"><h2>Decision-support phase</h2><span class="status built">Manual</span></div>
+      <p>Ran a live monitor that surfaced recommendations for manual review and confirmation — the proving ground where the rule set was pressure-tested against real, in-the-moment market behavior and Sebastian's own read of specific setups.</p>
+      <div class="chips">
+        <span class="chip keep">QQQ single-horizon entry filter — validated, kept optional</span>
+        <span class="chip reject">Regime-conditional stop width</span>
+        <span class="chip reject">Multi-horizon QQQ/SOXX confirmation</span>
+        <span class="chip reject">Hybrid per-ticker index filtering</span>
+        <span class="chip reject">CTA pressure-monitor overlay</span>
+      </div>
+      <div class="callout">Postmortems on live misses (e.g. WDC, SNDK) were resolved with evidence from the full trade history, not gut calls — several times confirming a gate's rejection was correct even when it felt wrong in hindsight.</div>
+    </div>
+
+    <div class="stage done" data-n="5">
+      <div class="stage-head"><h2>The pivot: full automation</h2><span class="status built">Decision</span></div>
+      <p>After weeks of stable, incrementally-improved rules, made the deliberate call to stop manually placing trades and let the system execute them itself — full automation, no manual confirm step, auto-flatten at market close.</p>
+    </div>
+
+    <div class="stage done" data-n="6">
+      <div class="stage-head"><h2>Building the execution layer</h2><span class="status built">Shipped</span></div>
+      <p>Built a broker-specific automation layer on top of the existing engine: Alpaca bracket orders (entry + stop + target in one submission), position tracking, and a 3:55pm ET auto-flatten to match the backtest's own exit assumptions exactly.</p>
+    </div>
+
+    <div class="stage" data-n="7">
+      <div class="stage-head"><h2>Live bugs, caught and fixed</h2><span class="status fixed">Resolved</span></div>
+      <p>Production use surfaced two real gaps, both fixed the same day they were found. First: auto-execution firing on several days-old, unresolved recommendations against today's prices — fixed with a same-day freshness filter and permanent failure/skip recording so nothing is silently retried. Second: an order rejected by the broker for a stale price wasn't reflected in the audit log — fixed with a pre-submission price-freshness check (bid/ask midpoint, double-confirmed to rule out a single noisy tick) plus full skip/reject logging, so the audit log is now a true record of every recommendation's fate.</p>
+    </div>
+
+    <div class="stage done" data-n="8">
+      <div class="stage-head"><h2>Full autonomous scheduling</h2><span class="status live">Live</span></div>
+      <p>Removed the last manual step: the system now starts, runs, and stops itself every weekday without anyone opening a terminal. A macOS scheduled service (launchd) fires the monitor at market open, logs the full session to a timestamped file, and pushes a notification on completion or failure — whether or not anyone is at the machine.</p>
+    </div>
+
+    <div class="stage done" data-n="9">
+      <div class="stage-head"><h2>Testing generalization beyond tech</h2><span class="status live">Tested</span></div>
+      <p>Ran the exact locked strategy — zero refitting, zero new parameter search — against 50 tickers across five non-tech sectors, to check whether the edge was a general market effect or specific to the tech/AI universe it was built on. Result: it does not generalize. Every sector traded net negative, before and after the trend/divergence gates, and the effect was broad-based rather than a few bad names. Valuable evidence against scaling this exact rule set into other sectors — and confirmation that any multi-sector expansion needs its own from-scratch discovery process, not a copy-paste of the tech ruleset.</p>
+      <div class="chips">
+        <span class="chip reject">Financials — net negative</span>
+        <span class="chip reject">Healthcare — net negative</span>
+        <span class="chip reject">Energy — net negative</span>
+        <span class="chip reject">Industrials — net negative</span>
+        <span class="chip reject">Consumer staples — net negative</span>
+      </div>
+    </div>
+
+    <div class="stage" data-n="10">
+      <div class="stage-head"><h2>Today</h2><span class="status live">Running</span></div>
+      <p>System runs itself unattended every weekday: scheduled start, live monitoring of all 34 tickers, real-time signal gating, automatic bracket-order execution, and auto-flatten at close — no manual step from open to close.</p>
+    </div>
+
+  </div>
+
+  <div class="footer-row">
+    <div class="footer-card">
+      <h3>Safety rails in place</h3>
+      <ul>
+        <li>Paper account only — no real capital</li>
+        <li>Locked, split-half-validated parameters</li>
+        <li>Auto-flatten at close, every day</li>
+        <li>Failed/stale signals permanently skipped, never retried</li>
+        <li>Pre-submission price-freshness check on every order</li>
+      </ul>
+    </div>
+    <div class="footer-card">
+      <h3>Still manual</h3>
+      <ul>
+        <li>Periodic spot-checks of output</li>
+        <li>Credential management (.env)</li>
+        <li>Confirming the Mac stays awake/updated overnight</li>
+      </ul>
+    </div>
+    <div class="footer-card">
+      <h3>On the shelf, not forgotten</h3>
+      <ul>
+        <li>Port dry-run mode to the IBKR monitor</li>
+        <li>IBKR remains the documented path to real execution</li>
+        <li>From-scratch strategy discovery for non-tech sectors</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="stamp">ORB Intraday Trading System — internal project summary, generated Sep 24, 2026 · Proprietary &amp; Confidential</div>
+
+</div>
+
+
+</body></html>
